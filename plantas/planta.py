@@ -19,7 +19,7 @@ class Planta:
 
     def recolher(self):
         if self.__pronto_recolher:
-            print(f"{self.nome} foi colhido")
+            print(f"{self.nome} foi colhida, recebeste {self.rendimento_colheita}€ de rendimento")
             self.__estado_atual = 0
             self.nome_estado_atual = self.estado_crescimento[0]
             self.__pronto_recolher = False

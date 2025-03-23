@@ -3,6 +3,7 @@ from .helper import Helper
 from plantas.alface import Alface
 from plantas.cenoura import Cenoura
 from plantas.tomate import Tomate
+from plantas.batata import Batata
 
 class Jardineiro:
     """Representa um jardineiro que pode plantar, regar e recolher plantas."""
@@ -11,7 +12,8 @@ class Jardineiro:
         self.nome = nome
         self.plantas_plantadas = []
         self.inventario = {}
-        self.plantas_disponiveis = {"tomate": Tomate, "alface": Alface, "cenoura": Cenoura}
+        self.plantas_disponiveis = {"tomate": Tomate, "alface": Alface, "cenoura": Cenoura, "batata": Batata}
+        self.rendimento = 0
 
     def plantar(self):
         if self.inventario == {}:
@@ -29,14 +31,21 @@ class Jardineiro:
                 print("Planta inválida")
 
     def regar(self):
-        for planta in self.plantas_plantadas:
-            planta.crescer()
+        if self.plantas_plantadas == []:
+            print("Não tens plantas para regar")
+        else:
+            for planta in self.plantas_plantadas:
+                planta.crescer()
     
     def recolher(self):
-        planta_seleccionada = Helper().seleccionar_item(self.plantas_plantadas)
-        planta_seleccionada.recolher()
-        self.plantas_plantadas.remove(planta_seleccionada)
-        
+        if self.plantas_plantadas == []:
+            print("Não tens plantas para recolher")
+        else:
+            for planta in self.plantas_plantadas:
+                if planta.posso_recolher:
+                    self.rendimento += planta.rendimento_colheita
+                    planta.recolher()
+                    self.plantas_plantadas.remove(planta)
 
     def procurar(self):
         planta_encontrada = random.choice(list(self.plantas_disponiveis.keys()))
@@ -45,3 +54,6 @@ class Jardineiro:
         else:
             self.inventario[planta_encontrada] = 1
         print(f"Encontraste uma {planta_encontrada}")
+
+    def mostrar_rendimento(self):
+        print(f"O teu rendimento é de {self.rendimento}€")

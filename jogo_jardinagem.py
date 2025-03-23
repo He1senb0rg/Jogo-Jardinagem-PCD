@@ -2,14 +2,14 @@ from jardineiro.jardineiro import Jardineiro
 
 class Jogo:
     def __init__(self):
-        self.comandos = ["plantar", "regar", "recolher", "procurar", "ajuda", "sair"]
+        self.comandos = ["plantar", "regar", "recolher", "procurar", "rendimento", "ajuda", "sair"]
         nome_jardineiro = input("Qual é o teu nome? ")
         print(f"Bem-vindo ao jogo de Jardinagem, {nome_jardineiro}! Inicia escrevendo ajuda para uma lista de comandos.")
         self.jardineiro = Jardineiro(nome_jardineiro)
 
     def iniciar_jogo(self):
         while True:
-            accao_jogador = input("O que desejas fazer? ")
+            accao_jogador = input("O que desejas fazer? Se precisares de ajuda, escreve 'ajuda'. ")
             accao_jogador = accao_jogador.lower()
             if accao_jogador in self.comandos:
                 if accao_jogador == "plantar":
@@ -20,6 +20,8 @@ class Jogo:
                     self.jardineiro.recolher()
                 elif accao_jogador == "procurar":
                     self.jardineiro.procurar()
+                elif accao_jogador == "rendimento":
+                    self.jardineiro.mostrar_rendimento()
                 elif accao_jogador == "ajuda":
                     print("*** Comandos ***")
                     for command in self.comandos:
