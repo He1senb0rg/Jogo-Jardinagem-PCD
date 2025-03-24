@@ -5,10 +5,15 @@ class Planta:
         self.__estado_atual = 0
         self.__pronto_recolher = False
         self.rendimento_colheita = rendimento_colheita
+        self.eficacia_crescimento = 1
 
     def crescer(self):
         if not self.__pronto_recolher:
-            self.__estado_atual += 1
+            if self.__estado_atual + self.eficacia_crescimento < len(self.estado_crescimento) - 1:
+                self.__estado_atual += self.eficacia_crescimento
+            else:
+                self.__estado_atual = len(self.estado_crescimento) - 1
+
             print(f"{self.nome} cresceu para {self.obter_nome_estado_actual()}")
 
             if self.__estado_atual == len(self.estado_crescimento) - 1:

@@ -2,7 +2,7 @@ from jardineiro.jardineiro import Jardineiro
 
 class Jogo:
     def __init__(self):
-        self.comandos = ["plantar", "regar", "recolher", "procurar", "rendimento", "ajuda", "sair"]
+        self.comandos = ["plantar", "regar", "recolher", "procurar", "rendimento", "inventario", "loja", "ajuda", "sair"]
         nome_jardineiro = input("Qual é o teu nome? ")
         print(f"Bem-vindo ao jogo de Jardinagem, {nome_jardineiro}! Inicia escrevendo ajuda para uma lista de comandos.")
         self.jardineiro = Jardineiro(nome_jardineiro)
@@ -22,6 +22,10 @@ class Jogo:
                     self.jardineiro.procurar()
                 elif accao_jogador == "rendimento":
                     self.jardineiro.mostrar_rendimento()
+                elif accao_jogador == "inventario":
+                    self.jardineiro.mostrar_inventario()
+                elif accao_jogador == "loja":
+                    self.jardineiro.loja()
                 elif accao_jogador == "ajuda":
                     print("*** Comandos ***")
                     for command in self.comandos:

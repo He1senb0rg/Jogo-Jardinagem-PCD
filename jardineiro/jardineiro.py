@@ -4,6 +4,7 @@ from plantas.alface import Alface
 from plantas.cenoura import Cenoura
 from plantas.tomate import Tomate
 from plantas.batata import Batata
+from items.fertelizante import Fertelizante
 
 class Jardineiro:
     """Representa um jardineiro que pode plantar, regar e recolher plantas."""
@@ -12,8 +13,10 @@ class Jardineiro:
         self.nome = nome
         self.plantas_plantadas = []
         self.inventario = {}
+        self.inventario_items = []
         self.plantas_disponiveis = {"tomate": Tomate, "alface": Alface, "cenoura": Cenoura, "batata": Batata}
-        self.rendimento = 0
+        self.items_disponiveis = {"fertelizante": Fertelizante}
+        self.rendimento = 10
 
     def plantar(self):
         if self.inventario == {}:
@@ -37,7 +40,7 @@ class Jardineiro:
             for planta in self.plantas_plantadas:
                 planta.crescer()
     
-    def recolher(self):
+    def recolher(self): #por alguma razao so ta a recolher uma planta?????
         if self.plantas_plantadas == []:
             print("Não tens plantas para recolher")
         else:
@@ -57,3 +60,29 @@ class Jardineiro:
 
     def mostrar_rendimento(self):
         print(f"O teu rendimento é de {self.rendimento}€")
+
+    def mostrar_inventario(self):
+        if self.inventario_items == {}:
+            print("Não tens items no inventário")
+        else:
+            item_selecionado = Helper().seleccionar_item(self.inventario_items)
+               
+            if self.plantas_plantadas == []:
+                print("Não tens plantas para aplicar o item")
+            else:
+                planta_selecionada = Helper().seleccionar_item(self.plantas_plantadas)
+                item_selecionado.aplicar(planta_selecionada)
+                self.inventario_items.remove(item_selecionado)
+    
+    def loja(self):
+        print("Items disponíveis:")
+        item_selecionado = Helper().seleccionar_item(self.items_disponiveis) # ainda nao aparece o preço dos items
+        if self.rendimento < self.items_disponiveis[item_selecionado]().preco:
+            print("Não tens dinheiro suficiente")
+        else:
+            self.rendimento -= self.items_disponiveis[item_selecionado]().preco
+            novo_item = self.items_disponiveis[item_selecionado]()
+            self.inventario_items.append(novo_item)
+            
+            print(f"Compraste {item_selecionado}!")
+
